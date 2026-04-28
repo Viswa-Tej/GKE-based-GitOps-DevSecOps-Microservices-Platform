@@ -1,6 +1,6 @@
 resource "google_compute_instance" "vm" {
     name = "devsecops-vm"
-    machine_type = "e2-micro"
+    machine_type = "e2-small"
     zone = "${var.region}-a"
 
     boot_disk {
