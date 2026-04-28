@@ -104,13 +104,13 @@ Avoids managed Kubernetes (cost-heavy)
 
 ## Screenshots
 
-![Terraform](Screenshots/Terraform-Apply-complete.png)
+![Terraform](https://github.com/Viswa-Tej/GKE-based-GitOps-DevSecOps-Microservices-Platform/blob/31e5a269687722833f00e8bcdfe081d3c222fe14/Screenshots/Terraform-Apply-complete.png)
 
-![GCP](Screenshots/GCP-VM-running.png)
+![GCP](https://github.com/Viswa-Tej/GKE-based-GitOps-DevSecOps-Microservices-Platform/blob/31e5a269687722833f00e8bcdfe081d3c222fe14/Screenshots/GCP-VM-running.png)
 
-![SSH](Screenshots/ssh-terminal-VM.png)
+![SSH](https://github.com/Viswa-Tej/GKE-based-GitOps-DevSecOps-Microservices-Platform/blob/31e5a269687722833f00e8bcdfe081d3c222fe14/Screenshots/ssh-terminal-VM.png)
 
-![Output](Screenshots/Terraform-Apply-complete.png)
+![Output](https://github.com/Viswa-Tej/GKE-based-GitOps-DevSecOps-Microservices-Platform/blob/31e5a269687722833f00e8bcdfe081d3c222fe14/Screenshots/Terraform-Apply-complete.png)
 
 📊 What This Phase Achieves
 
