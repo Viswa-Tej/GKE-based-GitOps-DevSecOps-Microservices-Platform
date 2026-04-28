@@ -41,7 +41,7 @@ terraform/
 - Installs **Debian OS**
 - Assigns **public IP for SSH access**
 
-```hcl
+### hcl
 resource "google_compute_instance" "vm" {
     boot_disk {
   initialize_params {
@@ -51,7 +51,7 @@ resource "google_compute_instance" "vm" {
 - Defines OS image for the VM
 - Debian is lightweight and widely used in servers
 
-🔹 network_interface
+### network_interface
 network_interface {
   network = "default"
   access_config {}
@@ -75,18 +75,18 @@ Lightweight VM to reduce attack surface
 
 ------------------
 
-🚀 How to Run
+## How to Run
 1. Initialize Terraform
 terraform init
 2. Plan Infrastructure
 terraform plan
 
-👉 Shows what resources will be created
+- Shows what resources will be created
 
 3. Apply Configuration
 terraform apply
 
-👉 Creates the VM on GCP
+- Creates the VM on GCP
 
 4. Connect to VM
 gcloud compute ssh devsecops-vm --zone us-central1-a
@@ -95,9 +95,9 @@ output "vm_ip" {
   value = google_compute_instance.vm.network_interface[0].access_config[0].nat_ip
 }
 
-👉 Displays public IP of VM after deployment
+- Displays public IP of VM after deployment
 
-💰 Cost Optimization
+- Cost Optimization
 Uses e2-micro (free tier eligible)
 Uses pd-standard disk (cheap storage)
 Avoids managed Kubernetes (cost-heavy)
@@ -112,32 +112,33 @@ Avoids managed Kubernetes (cost-heavy)
 
 ![Output](https://github.com/Viswa-Tej/GKE-based-GitOps-DevSecOps-Microservices-Platform/blob/31e5a269687722833f00e8bcdfe081d3c222fe14/Screenshots/Terraform-Apply-complete.png)
 
-📊 What This Phase Achieves
+## What This Phase Achieves
 
 ✔ Infrastructure as Code
 ✔ Cloud provisioning automation
 ✔ Secure VM access
 ✔ Foundation for DevOps pipeline
 
-🔥 Phase -2 Configuration Management (Ansible + Docker + Kubernetes)
-📌 In Phase-2 - I focussed on :
+## Phase -2 Configuration Management (Ansible + Docker + Kubernetes)
+### In Phase-2 - I focussed on :
 
 *Automating server setup using Ansible
 *Installing Docker for containerization
 *Installing Kubernetes (k3s) for orchestration
 *Preparing environment for microservices deployment
 
-🏗️ ARCHITECTURE: PHASE-2
+## ARCHITECTURE: PHASE-2
 
 User → Ansible → VM → Docker + Kubernetes (k3s)
 
-🧰 Tech Stack
+### Tech Stack
 Tool	Purpose
 Ansible	Configuration Management
 Docker	Container Runtime
 k3s	Lightweight Kubernetes
 Linux VM	Execution Environment
-📁 Project Structure
+
+### Project Structure
 ansible/
 ├── inventory.ini      # Defines target host (localhost)
 ├── setup.yml          # Playbook for automation
@@ -153,7 +154,7 @@ Uses local connection (no SSH required)
   apt:
     update_cache: yes
 
-👉 Ensures latest package list
+-  Ensures latest package list
 
 2. Install Docker
 - name: Install Docker
@@ -161,7 +162,7 @@ Uses local connection (no SSH required)
     name: docker.io
     state: present
 
-👉 Installs Docker runtime
+- Installs Docker runtime
 
 3. Start Docker
 - name: Start Docker
@@ -170,13 +171,13 @@ Uses local connection (no SSH required)
     state: started
     enabled: true
 
-👉 Ensures Docker runs automatically
+- Ensures Docker runs automatically
 
 4. Install Kubernetes (k3s)
 - name: Install k3s
   shell: curl -sfL https://get.k3s.io | sh -
 
-👉 Installs lightweight Kubernetes cluster
+- Installs lightweight Kubernetes cluster
 
 🔐 Security Considerations
 Minimal packages installed
@@ -192,33 +193,34 @@ Node ready for deployments
 
 (Add your images here)
 
-📊 What This Phase Achieves
+### What This Phase Achieves
 
 ✔ Automated server configuration
 ✔ Docker runtime setup
 ✔ Kubernetes cluster provisioning
 ✔ Ready for application deployment
 
-🔥 Phase -3 Microservices Deployment (Docker + Kubernetes)
-📌 In Phase-3 - I focussed on :
+## Phase -3 Microservices Deployment (Docker + Kubernetes)
+### In Phase-3 - I focussed on :
 
 *Building a containerized application
 *Deploying application into Kubernetes
 *Exposing application to external users
 *Handling real-world networking issues (firewall)
 
-🏗️ ARCHITECTURE: PHASE-3
+### ARCHITECTURE: PHASE-3
 
 User → Browser → NodePort → Kubernetes Service → Pod → Container
 
-🧰 Tech Stack
+### Tech Stack
 Tool	Purpose
 Node.js	Microservice application
 Docker	Containerization
 Kubernetes	Deployment & orchestration
 k3s	Lightweight cluster
 GCP	Hosting environment
-📁 Project Structure
+
+### Project Structure
 app/
 ├── app.js              # Node.js application
 ├── Dockerfile          # Container image definition
@@ -234,7 +236,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(3000);
 
-👉 Simple Node.js server
+- Simple Node.js server
 
 🔹 Dockerfile
 FROM node:18-alpine
@@ -242,13 +244,13 @@ WORKDIR /app
 COPY app.js .
 CMD ["node", "app.js"]
 
-👉 Builds lightweight container image
+- Builds lightweight container image
 
 🐳 Docker Steps
 docker build -t devsecops-app .
 docker run -d -p 3000:3000 devsecops-app
 
-👉 Validates application locally
+- Validates application locally
 
 ☸️ Kubernetes Deployment
 🔹 deployment.yaml
