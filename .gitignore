@@ -1,0 +1,13 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.lock.hcl
+
+# Sensitive files
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
