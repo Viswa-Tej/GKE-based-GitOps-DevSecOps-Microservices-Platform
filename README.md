@@ -1,15 +1,15 @@
-#DevSecops platform project:
+# DevSecops platform project:
 
-##Phase -1 Infrastructure (Terraform + GCP)
+## Phase -1 Infrastructure (Terraform + GCP)
 
 This project is a part of "Production level DevSecOps Platform" where I built a complete CI/CD+GitOps+Kubernetes ecosystem
 
-##In Phase-1 - I focussed on :
+## In Phase-1 - I focussed on :
 *Infrastructure provisioning using Terraform
 *Deploying VM on Google cloud
 *Preparing the base environment for automation ( Ansible, Docker, Kubernetes in later phases)
 
-##ARCHITECTURE: PHASE-1
+## ARCHITECTURE: PHASE-1
 User -> Terrafrom -> GCP -> Vm (Compute Engine)
 
 ## 🧰 Tech Stack
@@ -102,9 +102,9 @@ Uses e2-micro (free tier eligible)
 Uses pd-standard disk (cheap storage)
 Avoids managed Kubernetes (cost-heavy)
 
-##Screenshots
+## Screenshots
 
-![Terraform] (Screenshots/Terraform-Apply-complete.png)
+![Terraform](Screenshots/Terraform-Apply-complete.png)
 
 ![GCP](Screenshots/GCP-VM-running.png)
 
