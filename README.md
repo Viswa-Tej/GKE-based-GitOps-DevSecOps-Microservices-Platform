@@ -434,7 +434,6 @@ Screenshots/
 CI/CD pipeline success (green tick)
 
 File:
-
 Screenshots/phase4-actions-success.png
 2. Trivy Scan Output
 Show vulnerabilities scan
@@ -470,7 +469,7 @@ Screenshots/phase4-app.png
 
 🔜 Next Phase
 
-Phase 5: Monitoring (Prometheus + Grafana)
+## Phase 5: Monitoring (Prometheus + Grafana)
 
 👨‍💻 Author
 
