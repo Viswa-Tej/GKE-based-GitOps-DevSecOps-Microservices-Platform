@@ -38,5 +38,7 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
+        kubectl delete deployment devsecops-app || true
+        kubectl delete service devsecops-service || true
         kubectl apply -f app/deployment.yaml
         kubectl apply -f app/service.yaml
