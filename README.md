@@ -189,9 +189,7 @@ ansible-playbook -i inventory.ini setup.yml
 Docker installed and running
 Kubernetes cluster initialized
 Node ready for deployments
-📸 Screenshots
 
-(Add your images here)
 
 ### What This Phase Achieves
 
@@ -304,9 +302,7 @@ http://<VM-IP>:30007
 🔐 Cloud Firewall Fix
 Open port 30007 in GCP firewall
 Required for external access
-📸 Screenshots
 
-(Add your images here)
 
 📊 What This Phase Achieves
 
@@ -325,14 +321,161 @@ YAML errors
 Firewall restrictions
 🔜 Next Phases
 
-Phase 4: CI/CD with GitHub Actions
-Phase 5: Monitoring (Prometheus + Grafana)
-Phase 6: GitOps (ArgoCD + Helm)
+## Phase 4: CI/CD Pipeline (GitHub Actions + Security + Kubernetes Deployment)
+### Objective
 
-Phase 4: CI/CD with GitHub Actions
+In this phase, I implemented a complete CI/CD pipeline using GitHub Actions to:
+
+Build Docker image
+Scan image for vulnerabilities
+Push image to GitHub Container Registry (GHCR)
+Deploy application to Kubernetes (k3s cluster on GCP VM)
+### Architecture: Phase-4
+Developer → GitHub → GitHub Actions → GHCR → Kubernetes (k3s on GCP VM)
+### Tech Stack
+Tool
+GitHub Actions -  CI/CD pipeline automation
+Docker         -  Containerization
+GHCR	         -   Container registry
+Trivy	         -    Security scanning
+Kubernetes (k3s) - 	Deployment
+kubectl	Cluster interaction
+
+📁 Project Structure (Updated)
+.
+├── .github/workflows/
+│   └── ci-cd.yml
+├── app/
+│   ├── app.js
+│   ├── Dockerfile
+│   ├── deployment.yaml
+│   └── service.yaml
+⚙️ CI/CD Workflow Explained
+🔹 GitHub Actions Workflow
+
+File:
+
+.github/workflows/ci-cd.yml
+🔹 Pipeline Steps
+1. Checkout Code
+- uses: actions/checkout@v4
+-  Pulls latest code from repo
+
+2. Login to GHCR
+- name: Login to GHCR
+  run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+-  Authenticates with GitHub Container Registry
+
+3. Build Docker Image
+- name: Build Image
+  run: docker build -t ghcr.io/viswa-tej/devsecops-app:latest ./app
+
+-  Builds container image
+
+4. Security Scan (Trivy 🔐)
+- name: Scan Image
+  run: |
+    docker run --rm aquasec/trivy image ghcr.io/viswa-tej/devsecops-app:latest
+
+- Scans for vulnerabilities
+- Adds DevSecOps capability
+
+5. Push Image to GHCR
+- name: Push Image
+  run: docker push ghcr.io/viswa-tej/devsecops-app:latest
+6. Setup kubectl
+- uses: azure/setup-kubectl@v4
+7. Configure Kubeconfig
+- name: Set Kubeconfig
+  run: echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+8. Deploy to Kubernetes
+- name: Deploy
+  run: |
+    export KUBECONFIG=$PWD/kubeconfig.yaml
+    kubectl delete deployment devsecops-app || true
+    kubectl delete service devsecops-service || true
+    kubectl apply -f app/deployment.yaml
+    kubectl apply -f app/service.yaml
+- Handles immutable field issue
+- Ensures fresh deployment every time
+
+🔐 Security Implementations
+
+✔ Image scanning using Trivy
+✔ No hardcoded credentials (GitHub Secrets used)
+✔ Secure kubeconfig handling
+✔ TLS-secured Kubernetes API access
+✔ Controlled firewall rules (port 6443)
+
+🔑 GitHub Secrets Used
+
+Go to:
+- Settings → Secrets → Actions
+
+Add:
+
+1. KUBE_CONFIG
+Full kubeconfig from VM
+Modified with external IP
+- Kubernetes Manifests
+- deployment.yaml
+Defines application pods
+Uses image from GHCR
+- service.yaml
+Exposes app via NodePort (30007)
+🌐 Application Access
+http://<VM-External-IP>:30007
+
+Save inside:
+
+Screenshots/
+1. GitHub Actions Success
+CI/CD pipeline success (green tick)
+
+File:
+
+Screenshots/phase4-actions-success.png
+2. Trivy Scan Output
+Show vulnerabilities scan
+Screenshots/phase4-trivy-scan.png
+3. GHCR Image
+Image pushed to registry
+Screenshots/phase4-ghcr-image.png
+4. Kubernetes Pods Running
+kubectl get pods
+Screenshots/phase4-pods.png
+5. Kubernetes Service
+kubectl get svc
+Screenshots/phase4-service.png
+6. Application in Browser
+http://<VM-IP>:30007
+Screenshots/phase4-app.png
+🧠 Key Learnings
+
+✔ CI/CD pipeline automation
+✔ Container security scanning
+✔ Remote Kubernetes deployment
+✔ Handling TLS & kubeconfig issues
+✔ Debugging real-world DevOps failures
+✔ Working with immutable Kubernetes fields
+
+🚀 What This Phase Achieves
+
+✔ End-to-End CI/CD
+✔ DevSecOps integration
+✔ Automated deployment pipeline
+✔ Production-like workflow
+✔ Zero-cost implementation using free tools
+
+🔜 Next Phase
+
 Phase 5: Monitoring (Prometheus + Grafana)
-Phase 6: GitOps (ArgoCD + Helm)
+
 👨‍💻 Author
+
+Viswa
+DevOps Engineer | Cloud | Kubernetes | Automation
 
 Viswa
 DevOps Engineer | Cloud | Kubernetes | Automation
