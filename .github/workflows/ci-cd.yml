@@ -1,0 +1,42 @@
+name: DevSecOps CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-scan-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Login to GHCR
+      run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Build Docker Image
+      run: docker build -t ghcr.io/${{ github.repository_owner }}/devsecops-app:latest ./app
+
+    - name: Scan with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ghcr.io/${{ github.repository_owner }}/devsecops-app:latest
+
+    - name: Push Image
+      run: docker push ghcr.io/${{ github.repository_owner }}/devsecops-app:latest
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Set kubeconfig
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f app/deployment.yaml
+        kubectl apply -f app/service.yaml
