@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsecops-app
+spec:
+  replicas: 1
+  type: NodePort
+  selector:
+    matchLabels:
+      app: devsecops-app
+  ports:
+  - protocol: TCP
+    targetport: 3000
+    nodePort: 30007
+  template:
+    metadata:
+      labels:
+        app: devsecops-app
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/viswa-tej/devsecops-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
