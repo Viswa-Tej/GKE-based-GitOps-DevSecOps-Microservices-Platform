@@ -18,15 +18,15 @@ jobs:
       run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
     - name: Build Docker Image
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/devsecops-app:latest ./app
+      run: docker build -t ghcr.io/viswa-tej/devsecops-app:latest ./app
 
     - name: Scan with Trivy
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ghcr.io/${{ github.repository_owner }}/devsecops-app:latest
+        image-ref: ghcr.io/viswa-tej/devsecops-app:latest
 
     - name: Push Image
-      run: docker push ghcr.io/${{ github.repository_owner }}/devsecops-app:latest
+      run: docker push ghcr.io/viswa-tej/devsecops-app:latest
 
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
